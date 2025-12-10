@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Listening & Attention to Detail Assessment – Part 1 & Part 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .header .part-labels {
+            margin-top: 10px;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .header .part-pill {
+            display: inline-block;
+            margin: 4px 6px 0;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.35);
+            font-size: 12px;
+        }
+
+        .question-container {
+            padding: 30px;
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        .question-header {
+            margin-bottom: 25px;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .question-title {
+            font-size: 22px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .audio-player {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px solid #e9ecef;
+        }
+
+        .audio-instruction {
+            color: #495057;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .audio-instruction::before {
+            content: "🎧";
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .custom-audio-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .play-button {
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .play-button.playing {
+            transform: scale(0.96);
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+        }
+
+        .audio-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+
+        .play-count {
+            font-weight: 600;
+        }
+
+        .audio-status {
+            font-style: italic;
+        }
+
+        .play-limit-message {
+            margin-top: 4px;
+            font-size: 12px;
+            color: #e53e3e;
+        }
+
+        .options {
+            margin-top: 10px;
+        }
+
+        .option {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .option input[type="radio"] {
+            margin-top: 4px;
+        }
+
+        .option-label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 4px;
+        }
+
+        .option-text {
+            font-size: 14px;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.2);
+            background: #f7f8ff;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .results {
+            padding: 40px;
+            text-align: center;
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .score-number {
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        .score-label {
+            font-size: 16px;
+            opacity: 0.9;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .results h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        .results-message {
+            color: #4a5568;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .start-screen {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 26px;
+        }
+
+        .start-screen .welcome-text {
+            color: #4a5568;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .start-screen h3 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        /* ===== PART 2 STYLES ===== */
+        .part2-wrapper {
+            padding: 30px;
+            display: none;
+        }
+
+        .part2-wrapper.active {
+            display: block;
+        }
+
+        .part2-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: #ebf4ff;
+            color: #434190;
+            border: 1px solid #c3dafe;
+            margin-bottom: 8px;
+        }
+
+        .part2-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .part2-subtitle {
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 16px;
+        }
+
+        .part2-section {
+            margin-top: 18px;
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 16px 18px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .part2-section h3 {
+            font-size: 16px;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .part2-section p {
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .part2-field {
+            margin-bottom: 10px;
+        }
+
+        /* BOLD only the question labels (not the options) */
+        .part2-field > label {
+            display: block;
+            font-size: 14px;
+            color: #2d3748;
+            margin-bottom: 4px;
+            font-weight: 600; /* BOLD questions in Part 2 fields */
+        }
+
+        .part2-field select {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            padding: 8px 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .part2-truefalse-group {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* BOLD the question text inside True/False blocks */
+        .part2-truefalse-group p {
+            font-weight: 600;
+        }
+
+        .part2-truefalse-options {
+            margin-top: 4px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .part2-truefalse-options label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 0;
+        }
+
+        .part2-note {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 15px;
+        }
+
+        .part2-audio-label {
+            font-size: 13px;
+            color: #4a5568;
+            margin-top: 6px;
+        }
+
+        .part2-separator {
+            margin: 18px 0;
+            border: none;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        /* Vertical layout for Part 2 options */
+        .vertical-options label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 400; /* ensure options are NOT bold */
+        }
+
+        @media (max-width: 600px) {
+            .question-container,
+            .start-screen,
+            .results,
+            .part2-wrapper {
+                padding: 20px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .navigation .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div class="header">
+            <h1>Active Listening & Attention to Detail Assessment</h1>
+            <p>Evaluate how well you capture key information from real-world conversations.</p>
+            <div class="part-labels">
+                <span class="part-pill">Part 1 – Multiple-choice call scenarios</span>
+                <span class="part-pill">Part 2 – Sequence & detail verification</span>
+            </div>
+        </div>
+
+        <!-- ===== PART 1 – START SCREEN ===== -->
+        <div class="start-screen" id="startScreen">
+            <h2>Welcome! <span style="font-size: 14px; color:#667eea;">(Part 1)</span></h2>
+            <p class="welcome-text">
+                This assessment measures your ability to actively listen and accurately extract essential details from short recorded phone conversations. These skills are critical for delivering high-quality work, communicating clearly, and supporting our customers and internal teams.
+            </p>
+
+            <h3>Before you begin (Part 1 – Multiple-choice):</h3>
+            <ul style="text-align:left; max-width:650px; margin:0 auto; margin-top:10px; color:#4a5568; line-height:1.7; font-size:14px;">
+                <li>Listen closely to each audio clip.</li>
+                <li>You may play each call recording up to two times. After two full plays, the audio will be locked and you won't be able to replay it.</li>
+                <li>Choose the answer that best reflects the information provided.</li>
+            </ul>
+
+            <p style="font-size: 16px; margin-top: 20px;">When you're ready, start Part 1 below.</p>
+            <p style="font-size: 18px; font-weight: 600; color: #667eea; margin-top: 20px;">You've got this—good luck!</p>
+
+            <button class="btn btn-primary" onclick="startAssessment()" style="margin-top: 30px; padding: 15px 40px; font-size: 18px;">Start Part 1</button>
+        </div>
+
+        <!-- ===== PART 1 – QUESTIONS ===== -->
+
+        <!-- Question 1 -->
+        <div class="question-container" id="question1">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 1 of 10</div>
+                <div class="question-title">Topic: HVAC Annual Maintenance</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio1">
+                    <source src="set1_hvac.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn1" onclick="playAudio(1)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount1">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q1" id="q1a" value="A">
+                    <label for="q1a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The customer scheduled an annual HVAC system maintenance for Tuesday, October 8th, at 9:00 AM. The service costs $189 and includes filter replacement and duct inspection. The customer needs a text reminder 30 minutes before the appointment. Payment will be processed via invoice email.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q1" id="q1b" value="B">
+                    <label for="q1b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The customer scheduled an annual HVAC system maintenance for Tuesday, October 9th, at 9:00 AM. The service costs $198 and includes filter replacement and duct inspection. The customer needs a text reminder 30 minutes before the appointment. Payment will be processed via invoice email.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q1" id="q1c" value="C">
+                    <label for="q1c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The customer scheduled an annual HVAC system maintenance for Tuesday, October 8th, at 9:00 AM. The service costs $198 and includes filter replacement and duct inspection. The customer needs a text reminder 30 minutes before the appointment. Payment will be processed via invoice email.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" disabled>Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(1)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-container" id="question2">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 2 of 10</div>
+                <div class="question-title">Topic: Pet Grooming Appointment</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio2">
+                    <source src="set2_pet_grooming.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn2" onclick="playAudio(2)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount2">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q2" id="q2a" value="A">
+                    <label for="q2a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The customer is bringing a small Golden Retriever for a full bath and trim on Saturday, November 2nd, at 11:00 AM. The estimated cost is $75, and the grooming will take approximately 90 minutes. The customer will pay with cash upon pickup.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q2" id="q2b" value="B">
+                    <label for="q2b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The customer is bringing a large Golden Retriever for a full bath and trim on Saturday, November 2nd, at 11:00 AM. The estimated cost is $75, and the grooming will take approximately 90 minutes. The customer will pay with cash upon pickup.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q2" id="q2c" value="C">
+                    <label for="q2c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The customer is bringing a large Golden Retriever for a full bath and trim on Saturday, November 2nd, at 10:00 AM. The estimated cost is $85, and the grooming will take approximately 60 minutes. The customer will pay with cash upon pickup.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(2)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(2)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-container" id="question3">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 3 of 10</div>
+                <div class="question-title">Topic: Catering Inquiry</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio3">
+                    <source src="set3_catering.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn3" onclick="playAudio(3)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount3">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q3" id="q3a" value="A">
+                    <label for="q3a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The customer is calling about catering a corporate lunch for 60 guests on Friday, May 17th. The quoted price for the standard package is $18 per person. The customer confirmed that vegetarian options are not required. A $200 deposit is needed to hold the date.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q3" id="q3b" value="B">
+                    <label for="q3b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The customer is calling about catering a corporate lunch for 50 guests on Friday, May 17th. The quoted price for the standard package is $18 per person. The customer confirmed that vegetarian options are not required. A $250 deposit is needed to hold the date.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q3" id="q3c" value="C">
+                    <label for="q3c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The customer is calling about catering a corporate lunch for 60 guests on Friday, May 17th. The quoted price for the standard package is $18 per person. The customer confirmed that vegetarian options are required. A $250 deposit is needed to hold the date.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(3)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(3)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-container" id="question4">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 4 of 10</div>
+                <div class="question-title">Topic: Home Security System Installation</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio4">
+                    <source src="set4_security.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn4" onclick="playAudio(4)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount4">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q4" id="q4a" value="A">
+                    <label for="q4a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The customer requested an installation of a basic security package with three door sensors and one motion detector. The total installation fee is $299. The installation date is set for Wednesday, March 20th. The customer confirmed the address is 105 Maple Lane.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q4" id="q4b" value="B">
+                    <label for="q4b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The customer requested an installation of a basic security package with four door sensors and one motion detector. The total installation fee is $299. The installation date is set for Wednesday, March 20th. The customer confirmed the address is 105 Maple Lane.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q4" id="q4c" value="C">
+                    <label for="q4c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The customer requested an installation of a basic security package with three door sensors and two motion detectors. The total installation fee is $299. The installation date is set for Wednesday, March 20th. The customer confirmed the address is 105 Maple Lane.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(4)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(4)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-container" id="question5">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 5 of 10</div>
+                <div class="question-title">Topic: Auto Repair – Oil Change and Tire Rotation</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio5">
+                    <source src="set5_auto_repair.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn5" onclick="playAudio(5)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount5">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus5"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q5" id="q5a" value="A">
+                    <label for="q5a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The customer scheduled a standard oil change and tire rotation for a Honda Civic on Thursday, July 11th, at 1:30 PM. The total cost, including tax, is $95.50. The customer requested a return call when the vehicle is ready for pickup.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q5" id="q5b" value="B">
+                    <label for="q5b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The customer scheduled a standard oil change and tire rotation for a Toyota Camry on Thursday, July 11th, at 1:30 PM. The total cost, including tax, is $95.50. The customer requested a return call when the vehicle is ready for pickup.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q5" id="q5c" value="C">
+                    <label for="q5c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The customer scheduled a standard oil change and tire rotation for a Toyota Camry on Thursday, July 11th, at 1:00 PM. The total cost, including tax, is $90.50. The customer requested a text message when the vehicle is ready for pickup.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(5)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(5)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-container" id="question6">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 6 of 10</div>
+                <div class="question-title">Topic: Web Design Consultation</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio6">
+                    <source src="set6_web_design.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn6" onclick="playAudio(6)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount6">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus6"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q6" id="q6a" value="A">
+                    <label for="q6a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The customer requested a full website redesign with a focus on mobile responsiveness, a contact form, and a project gallery. The consultation is scheduled for Thursday, September 12th, at 10:00 AM, and will take place via video call.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="q6" id="q6b" value="B">
+                    <label for="q6b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The customer requested only minor text edits to their current website and declined a full design consultation. The call was scheduled for Friday afternoon with no specific time set.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="q6" id="q6c" value="C">
+                    <label for="q6c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The customer requested a logo design only, with no changes to the website. The consultation will be done in person at the agency office on Monday morning.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(6)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(6)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-container" id="question7">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 7 of 10</div>
+                <div class="question-title">Topic: Gym Membership Inquiry</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio7">
+                    <source src="set7_gym.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn7" onclick="playAudio(7)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount7">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus7"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q7" id="q7a" value="A">
+                    <label for="q7a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The customer is interested in the Basic membership plan which costs $29 per month. The staff confirmed the plan includes access to cardio equipment only. The promotional offer waives the enrollment fee, saving the customer $50.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="q7" id="q7b" value="B">
+                    <label for="q7b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The customer is interested in the Standard membership plan which costs $39 per month. The staff confirmed the plan includes access to cardio and strength equipment, plus one free training session. The promotional offer waives the $50 enrollment fee.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="q7" id="q7c" value="C">
+                    <label for="q7c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The customer is interested in the Premium membership plan which costs $59 per month. The staff confirmed the plan includes unlimited access to only cardio classes. The promotional offer waives the enrollment fee, saving the customer $50.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(7)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(7)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-container" id="question8">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 8 of 10</div>
+                <div class="question-title">Topic: Appliance Repair</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio8">
+                    <source src="set8_appliance.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn8" onclick="playAudio(8)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount8">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus8"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q8" id="q8a" value="A">
+                    <label for="q8a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The customer reported an issue with a broken dishwasher. The service call fee is $99. A technician is scheduled to arrive on Friday, April 5th, during the 1:00 PM to 3:00 PM window. The customer was instructed to pay the technician directly via check.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q8" id="q8b" value="B">
+                    <label for="q8b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The customer reported an issue with a broken dishwasher. The service call fee is $89. A technician is scheduled to arrive on Friday, April 5th, during the 1:00 PM to 3:00 PM window. The customer was instructed to pay the technician directly via credit card.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q8" id="q8c" value="C">
+                    <label for="q8c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The customer reported an issue with a broken dryer. The service call fee is $89. A technician is scheduled to arrive on Friday, April 5th, during the 1:00 PM to 3:00 PM window. The customer was instructed to pay the technician directly via check.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(8)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(8)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-container" id="question9">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 9 of 10</div>
+                <div class="question-title">Topic: Photography Session Booking</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio9">
+                    <source src="set9_photography.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn9" onclick="playAudio(9)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount9">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus9"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q9" id="q9a" value="A">
+                    <label for="q9a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The customer booked a one-hour family portrait session for Sunday, August 18th, at 4:30 PM. The session requires a $75 retainer fee. The staff confirmed the session will take place at the customer's home. The package includes 15 edited digital images.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q9" id="q9b" value="B">
+                    <label for="q9b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The customer booked a one-hour maternity portrait session for Sunday, August 18th, at 4:30 PM. The session requires a $75 retainer fee. The staff confirmed the session will take place at the photographer's studio. The package includes 15 edited digital images.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q9" id="q9c" value="C">
+                    <label for="q9c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The customer booked a one-hour maternity portrait session for Saturday, August 18th, at 4:00 PM. The session requires a $50 retainer fee. The staff confirmed the session will take place at the photographer's studio. The package includes 10 edited digital images.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(9)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(9)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-container" id="question10">
+            <div class="question-header">
+                <div class="question-number">Part 1 • Question 10 of 10</div>
+                <div class="question-title">Topic: Financial Planning Appointment</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio id="audio10">
+                    <source src="set10_financial.mp3" type="audio/mpeg">
+                </audio>
+                <div class="custom-audio-player">
+                    <button class="play-button" id="playBtn10" onclick="playAudio(10)">▶</button>
+                    <div class="audio-info">
+                        <div class="play-count" id="playCount10">Plays remaining: 2</div>
+                        <div class="audio-status" id="audioStatus10"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q10" id="q10a" value="A">
+                    <label for="q10a">
+                        <div>
+                            <div class="option-label">Option A:</div>
+                            <div class="option-text">
+                                The client scheduled a 30-minute introductory meeting with Mr. David Allen. The meeting is set for Wednesday, February 21st, at 2:00 PM. The client was asked to bring their most recent tax return and a list of current investments. The staff confirmed the meeting will be in-person.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q10" id="q10b" value="B">
+                    <label for="q10b">
+                        <div>
+                            <div class="option-label">Option B:</div>
+                            <div class="option-text">
+                                The client scheduled a 30-minute introductory meeting with Ms. Diane Allen. The meeting is set for Wednesday, February 21st, at 2:30 PM. The client was asked to bring their most recent tax return and a list of current investments. The staff confirmed the meeting will be virtual.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q10" id="q10c" value="C">
+                    <label for="q10c">
+                        <div>
+                            <div class="option-label">Option C:</div>
+                            <div class="option-text">
+                                The client scheduled a one-hour introductory meeting with Mr. David Allen. The meeting is set for Wednesday, February 21st, at 2:00 PM. The client was asked to bring their credit report and a list of current debts. The staff confirmed the meeting will be in-person.
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(10)">Previous</button>
+                <button class="btn btn-primary" onclick="submitAssessment()">Submit Part 1</button>
+            </div>
+        </div>
+
+        <!-- FINAL RESULTS (shown only after Part 2) -->
+        <div class="results" id="results">
+            <h2>Assessment Complete!</h2>
+            <div class="score-circle">
+                <div class="score-number" id="scoreNumber">0</div>
+                <div class="score-label" id="scoreLabel">Overall Listening & Detail Score</div>
+            </div>
+            <div class="results-message" id="resultsMessage"></div>
+
+            <div id="breakdownContainer" style="margin-top:10px; color:#4a5568; font-size:14px;"></div>
+
+            <div id="mistakesContainer" style="margin-top:20px;"></div>
+
+            <p style="margin-top: 20px; color:#4a5568; font-size:13px;">
+                Part 1 focuses on quick recall of concrete details. Part 2 focuses on sequence and key details within a single call.
+            </p>
+            <button class="btn btn-primary" onclick="restartAssessment()" style="margin-top: 20px;">Retake Assessment</button>
+        </div>
+
+        <!-- ===== PART 2 – UPDATED, QUESTIONS BOLDED, MAX 3 PLAYS ===== -->
+        <div class="part2-wrapper" id="part2Wrapper">
+
+            <!-- INTRO -->
+            <div id="part2Intro">
+                <span class="part2-badge">Part 2 – Welcome</span>
+                <div class="part2-title">Part 2: Detail & Sequence Check</div>
+                <div class="part2-subtitle">
+                    You will hear one full call related to a customer's online order issue.
+                    Answer all questions based only on what you heard.
+                </div>
+
+                <div class="part2-section">
+                    <h3>Instructions:</h3>
+                    <p>• You can play the audio <strong>up to 3 times only</strong>.</p>
+                    <p>• Audio cannot be fast-forwarded or scrubbed.</p>
+                </div>
+
+                <button class="btn btn-primary" onclick="startPartTwo()" style="margin-top:20px;">Start Part 2</button>
+            </div>
+
+            <!-- CONTENT -->
+            <div id="part2Content" style="display:none; margin-top:20px;">
+
+                <span class="part2-badge">Part 2 – Detail Assessment</span>
+                <div class="part2-title">Customer Call Assessment</div>
+
+                <!-- AUDIO -->
+                <div class="audio-player">
+                    <div class="audio-instruction">Listen carefully:</div>
+                    <audio id="audioP2">
+                        <source src="part2_call_audio.mp3" type="audio/mpeg">
+                    </audio>
+
+                    <div class="custom-audio-player">
+                        <button class="play-button" id="playBtnP2" onclick="playPart2Audio()">▶</button>
+                        <div class="audio-info">
+                            <div class="play-count" id="playCountP2">Plays remaining: 3</div>
+                            <div class="audio-status" id="audioStatusP2"></div>
+                            <div class="part2-audio-label">
+                                You may play the call <strong>3 times only</strong>. Scrubbing is disabled.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION A: SEQUENCE -->
+                <div class="part2-section">
+                    <h3>A. Sequence of Events</h3>
+                    <p><strong>Select the correct order in which these events happened.</strong></p>
+
+                    <div class="part2-field">
+                        <label>1. Agent verifies customer details</label>
+                        <select id="p2_seq_1">
+                            <option value="">Select order</option>
+                            <option value="1">1 – First</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4 – Last</option>
+                        </select>
+                    </div>
+
+                    <div class="part2-field">
+                        <label>2. Customer explains the issue</label>
+                        <select id="p2_seq_2">
+                            <option value="">Select order</option>
+                            <option value="1">1 – First</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4 – Last</option>
+                        </select>
+                    </div>
+
+                    <div class="part2-field">
+                        <label>3. Agent provides solution</label>
+                        <select id="p2_seq_3">
+                            <option value="">Select order</option>
+                            <option value="1">1 – First</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4 – Last</option>
+                        </select>
+                    </div>
+
+                    <div class="part2-field">
+                        <label>4. Customer confirms satisfaction</label>
+                        <select id="p2_seq_4">
+                            <option value="">Select order</option>
+                            <option value="1">1 – First</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4 – Last</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr class="part2-separator">
+
+                <!-- SECTION B: TRUE/FALSE -->
+                <div class="part2-section">
+                    <h3>B. Detail Verification (True / False)</h3>
+
+                    <div class="part2-truefalse-group">
+                        <p>1. The customer mentioned a specific date.</p>
+                        <div class="vertical-options">
+                            <label><input type="radio" name="p2_tf_1" value="true"> True</label>
+                            <label><input type="radio" name="p2_tf_1" value="false"> False</label>
+                        </div>
+                    </div>
+
+                    <div class="part2-truefalse-group">
+                        <p>2. The agent offered more than one solution.</p>
+                        <div class="vertical-options">
+                            <label><input type="radio" name="p2_tf_2" value="true"> True</label>
+                            <label><input type="radio" name="p2_tf_2" value="false"> False</label>
+                        </div>
+                    </div>
+
+                    <div class="part2-truefalse-group">
+                        <p>3. The customer was put on hold.</p>
+                        <div class="vertical-options">
+                            <label><input type="radio" name="p2_tf_3" value="true"> True</label>
+                            <label><input type="radio" name="p2_tf_3" value="false"> False</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="part2-separator">
+
+                <!-- SECTION C: SPECIFIC DETAILS -->
+                <div class="part2-section">
+                    <h3>C. Specific Call Details</h3>
+
+                    <div class="part2-field">
+                        <label>1. What order number was mentioned?</label>
+                        <div class="vertical-options">
+                            <label><input type="radio" name="p2_order_number" value="REF-1042"> REF-1042</label>
+                            <label><input type="radio" name="p2_order_number" value="ORD-5879"> ORD-5879</label>
+                            <label><input type="radio" name="p2_order_number" value="TCK-2134"> TCK-2134</label>
+                            <label><input type="radio" name="p2_order_number" value="none"> No reference mentioned</label>
+                        </div>
+                    </div>
+
+                    <div class="part2-field">
+                        <!-- UPDATED QUESTION TEXT -->
+                        <label>2. Which date was mentioned?</label>
+                        <div class="vertical-options">
+                            <label><input type="radio" name="p2_date_mentioned" value="exact-date"> A specific date</label>
+                            <label><input type="radio" name="p2_date_mentioned" value="relative"> A timeframe (e.g., 3–5 days)</label>
+                            <label><input type="radio" name="p2_date_mentioned" value="no-date"> No date mentioned</label>
+                        </div>
+                    </div>
+
+                    <div class="part2-field">
+                        <label>3. Did the customer give any special instructions?</label>
+                        <div class="vertical-options">
+                            <label><input type="radio" name="p2_special_instruction" value="after-5pm"> Delivery after 5 PM</label>
+                            <label><input type="radio" name="p2_special_instruction" value="contact-email"> Contact by email only</label>
+                            <label><input type="radio" name="p2_special_instruction" value="contact-phone"> Contact by phone only</label>
+                            <label><input type="radio" name="p2_special_instruction" value="none"> No special instructions</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="finishPart2()" style="margin-top:20px;">
+                    Finish Part 2 & View Score
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ===== PART 1 LOGIC ===== */
+        const correctAnswers = {
+            q1: 'C',
+            q2: 'B',
+            q3: 'C',
+            q4: 'C',
+            q5: 'B',
+            q6: 'A',
+            q7: 'B',
+            q8: 'C',
+            q9: 'B',
+            q10: 'A'
+        };
+
+        const questionTitles = {
+            q1: 'HVAC Annual Maintenance',
+            q2: 'Pet Grooming Appointment',
+            q3: 'Catering Inquiry',
+            q4: 'Home Security System Installation',
+            q5: 'Auto Repair – Oil Change and Tire Rotation',
+            q6: 'Web Design Consultation',
+            q7: 'Gym Membership Inquiry',
+            q8: 'Appliance Repair',
+            q9: 'Photography Session Booking',
+            q10: 'Financial Planning Appointment'
+        };
+
+        let currentQuestion = 0;
+        const totalQuestions = 10;
+        let userAnswers = {};
+        let audioPlayCounts = {};
+        let audioLocked = {};
+        let currentlyPlaying = null;
+
+        // Part 1 result storage
+        let finalScore = 0;            // raw score out of 10
+        let finalPercentage = 0;       // 0–100
+        let finalMistakes = [];
+        let finalMessagePart1 = '';
+
+        // Part 2 scoring
+        let part2Score = 0;           // raw score
+        let part2Percentage = 0;      // 0–100
+
+        for (let i = 1; i <= totalQuestions; i++) {
+            audioPlayCounts[i] = 0;
+            audioLocked[i] = false;
+        }
+
+        function stopAllAudio() {
+            // Stop Part 1 audios
+            for (let i = 1; i <= totalQuestions; i++) {
+                const audio = document.getElementById(`audio${i}`);
+                const btn = document.getElementById(`playBtn${i}`);
+                const statusDiv = document.getElementById(`audioStatus${i}`);
+                if (audio && !audio.paused) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+                if (btn) {
+                    btn.textContent = '▶';
+                    btn.classList.remove('playing');
+                }
+                if (statusDiv) {
+                    statusDiv.textContent = '';
+                }
+            }
+
+            // Stop Part 2 audio
+            const p2audio = document.getElementById('audioP2');
+            const p2btn = document.getElementById('playBtnP2');
+            const p2status = document.getElementById('audioStatusP2');
+            if (p2audio && !p2audio.paused) {
+                p2audio.pause();
+                p2audio.currentTime = 0;
+                if (p2btn) {
+                    p2btn.textContent = '▶';
+                    p2btn.classList.remove('playing');
+                }
+                if (p2status) {
+                    p2status.textContent = '';
+                }
+            }
+
+            currentlyPlaying = null;
+        }
+
+        function playAudio(questionNum) {
+            if (audioLocked[questionNum]) {
+                return;
+            }
+
+            const audio = document.getElementById(`audio${questionNum}`);
+            const btn = document.getElementById(`playBtn${questionNum}`);
+            const statusDiv = document.getElementById(`audioStatus${questionNum}`);
+            const playCountDiv = document.getElementById(`playCount${questionNum}`);
+
+            if (!audio || !btn || !statusDiv || !playCountDiv) return;
+
+            stopAllAudio();
+
+            audioPlayCounts[questionNum]++;
+            const remaining = 2 - audioPlayCounts[questionNum];
+
+            playCountDiv.textContent = `Plays remaining: ${Math.max(0, remaining)}`;
+            
+            btn.textContent = '⏸';
+            btn.classList.add('playing');
+            statusDiv.textContent = 'Playing...';
+            currentlyPlaying = questionNum;
+
+            audio.play();
+
+            audio.onended = function() {
+                btn.textContent = '▶';
+                btn.classList.remove('playing');
+                statusDiv.textContent = '';
+                currentlyPlaying = null;
+
+                if (audioPlayCounts[questionNum] >= 2) {
+                    audioLocked[questionNum] = true;
+                    btn.disabled = true;
+                    statusDiv.innerHTML = '<div class="play-limit-message">⚠️ Maximum play limit reached (2 times)</div>';
+                }
+            };
+        }
+
+        function startAssessment() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('question1').classList.add('active');
+            currentQuestion = 1;
+            updateProgress();
+        }
+
+        function nextQuestion(current) {
+            const selected = document.querySelector(`input[name="q${current}"]:checked`);
+            if (!selected) {
+                alert('Please select an answer before proceeding.');
+                return;
+            }
+
+            userAnswers[`q${current}`] = selected.value;
+            stopAllAudio();
+
+            document.getElementById(`question${current}`).classList.remove('active');
+            
+            if (current < totalQuestions) {
+                currentQuestion = current + 1;
+                document.getElementById(`question${currentQuestion}`).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function prevQuestion(current) {
+            stopAllAudio();
+            document.getElementById(`question${current}`).classList.remove('active');
+            currentQuestion = current - 1;
+            document.getElementById(`question${currentQuestion}`).classList.add('active');
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function submitAssessment() {
+            const selected = document.querySelector('input[name="q10"]:checked');
+            if (!selected) {
+                alert('Please select an answer before submitting.');
+                return;
+            }
+
+            userAnswers['q10'] = selected.value;
+            stopAllAudio();
+
+            let score = 0;
+            let mistakes = [];
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionKey = `q${i}`;
+                const userAnswer = userAnswers[questionKey];
+                const correctAnswer = correctAnswers[questionKey];
+
+                if (userAnswer === correctAnswer) {
+                    score++;
+                } else {
+                    mistakes.push({
+                        questionNumber: i,
+                        questionTitle: questionTitles[questionKey]
+                    });
+                }
+            }
+
+            const percentage = (score / totalQuestions) * 100;
+            let message = '';
+            
+            if (percentage >= 90) {
+                message = 'Excellent Part 1 performance! You have strong attention to detail and recall from short calls.';
+            } else if (percentage >= 70) {
+                message = 'Good Part 1 performance. You showed solid listening and comprehension on structured calls.';
+            } else if (percentage >= 50) {
+                message = 'Fair Part 1 performance. There is room to improve your attention to specific details.';
+            } else {
+                message = 'Part 1 suggests you may benefit from more practice focusing on key details during calls.';
+            }
+
+            // Store results to combine later with Part 2
+            finalScore = score;
+            finalPercentage = percentage;
+            finalMistakes = mistakes;
+            finalMessagePart1 = message;
+
+            // Hide Part 1 and go to Part 2 intro
+            document.getElementById('question10').classList.remove('active');
+            updateProgress(); // keep progress bar at 100% for Part 1
+            showPartTwoIntro();
+        }
+
+        function restartAssessment() {
+            location.reload();
+        }
+
+        /* ===== PART 2 LOGIC (MAX 3 PLAYS) ===== */
+
+        let part2PlayCount = 0;
+        const part2MaxPlays = 3;
+        let part2Locked = false;
+
+        // Correct answers for Part 2 (A, B, C only)
+        const part2AnswerKey = {
+            // Sequence (1–4)
+            seq: {
+                p2_seq_1: '1', // Agent verifies details first
+                p2_seq_2: '2', // Customer explains problem
+                p2_seq_3: '3', // Agent provides solution
+                p2_seq_4: '4'  // Customer confirms satisfaction
+            },
+            // True/False
+            tf: {
+                p2_tf_1: 'true',   // Specific date mentioned
+                p2_tf_2: 'true',   // More than one solution
+                p2_tf_3: 'false'   // Not put on hold
+            },
+            // Specific details
+            details: {
+                p2_order_number: 'ORD-5879',
+                p2_date_mentioned: 'relative',       // timeframe (e.g., 3–5 days)
+                p2_special_instruction: 'contact-email'
+            }
+        };
+
+        function showPartTwoIntro() {
+            const wrapper = document.getElementById('part2Wrapper');
+            const intro = document.getElementById('part2Intro');
+            const content = document.getElementById('part2Content');
+
+            if (wrapper) wrapper.classList.add('active');
+            if (intro) intro.style.display = 'block';
+            if (content) content.style.display = 'none';
+
+            wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function startPartTwo() {
+            const intro = document.getElementById('part2Intro');
+            const content = document.getElementById('part2Content');
+            if (intro) intro.style.display = 'none';
+            if (content) content.style.display = 'block';
+        }
+
+        function playPart2Audio() {
+            if (part2Locked) return;
+
+            const audio = document.getElementById('audioP2');
+            const btn = document.getElementById('playBtnP2');
+            const statusDiv = document.getElementById('audioStatusP2');
+            const playCountDiv = document.getElementById('playCountP2');
+
+            if (!audio || !btn || !statusDiv || !playCountDiv) return;
+
+            stopAllAudio();
+
+            part2PlayCount++;
+            const remaining = part2MaxPlays - part2PlayCount;
+            playCountDiv.textContent = 'Plays remaining: ' + Math.max(0, remaining);
+
+            btn.textContent = '⏸';
+            btn.classList.add('playing');
+            statusDiv.textContent = 'Playing...';
+
+            audio.play();
+
+            audio.onended = function() {
+                btn.textContent = '▶';
+                btn.classList.remove('playing');
+                statusDiv.textContent = '';
+
+                if (part2PlayCount >= part2MaxPlays) {
+                    part2Locked = true;
+                    btn.disabled = true;
+                    statusDiv.innerHTML = '<div class="play-limit-message">⚠️ Maximum play limit reached (3 times)</div>';
+                }
+            };
+        }
+
+        function finishPart2() {
+            // NEW: stop any audio (including Part 2) when submitting
+            stopAllAudio();
+
+            // Validate that all Part 2 questions are answered
+            const requiredSelects = ['p2_seq_1', 'p2_seq_2', 'p2_seq_3', 'p2_seq_4'];
+            const requiredRadios = [
+                'p2_tf_1', 'p2_tf_2', 'p2_tf_3',
+                'p2_order_number', 'p2_date_mentioned', 'p2_special_instruction'
+            ];
+
+            // Check selects
+            for (const id of requiredSelects) {
+                const el = document.getElementById(id);
+                if (!el || !el.value) {
+                    alert('Please complete all Part 2 questions before finishing.');
+                    return;
+                }
+            }
+
+            // Check radio groups
+            for (const name of requiredRadios) {
+                const checked = document.querySelector(`input[name="${name}"]:checked`);
+                if (!checked) {
+                    alert('Please complete all Part 2 questions before finishing.');
+                    return;
+                }
+            }
+
+            // Calculate Part 2 score (objective only)
+            let score = 0;
+            let totalItems = 0;
+
+            // Sequence
+            for (const key in part2AnswerKey.seq) {
+                totalItems++;
+                const el = document.getElementById(key);
+                if (el && el.value === part2AnswerKey.seq[key]) {
+                    score++;
+                }
+            }
+
+            // True/False
+            for (const key in part2AnswerKey.tf) {
+                totalItems++;
+                const selected = document.querySelector(`input[name="${key}"]:checked`);
+                if (selected && selected.value === part2AnswerKey.tf[key]) {
+                    score++;
+                }
+            }
+
+            // Details
+            for (const key in part2AnswerKey.details) {
+                totalItems++;
+                const selected = document.querySelector(`input[name="${key}"]:checked`);
+                if (selected && selected.value === part2AnswerKey.details[key]) {
+                    score++;
+                }
+            }
+
+            part2Score = score;
+            part2Percentage = (score / totalItems) * 100;
+
+            // Combine Part 1 and Part 2 into overall percentage
+            const overallPercentage = Math.round((finalPercentage + part2Percentage) / 2);
+
+            const wrapper = document.getElementById('part2Wrapper');
+            const results = document.getElementById('results');
+
+            if (wrapper) wrapper.classList.remove('active');
+            if (results) results.classList.add('active');
+
+            // Update main score display
+            document.getElementById('scoreNumber').textContent = overallPercentage + '%';
+            document.getElementById('scoreLabel').textContent = 'Overall Listening & Detail Score';
+
+            // Overall message based on combined score
+            let overallMessage = '';
+            if (overallPercentage >= 90) {
+                overallMessage = 'Outstanding overall performance. You consistently capture both high-level and fine-grained details across different call types.';
+            } else if (overallPercentage >= 75) {
+                overallMessage = 'Strong overall performance. You listen well and handle details accurately in most situations.';
+            } else if (overallPercentage >= 60) {
+                overallMessage = 'Moderate overall performance. You understand the main points but may miss some details or sequence steps under pressure.';
+            } else {
+                overallMessage = 'Your results suggest you may benefit from more practice focusing on structure, details, and confirming understanding during calls.';
+            }
+
+            document.getElementById('resultsMessage').textContent = overallMessage;
+
+            // Breakdown (Part 1 + Part 2)
+            const breakdown = `
+                <div style="text-align:left; max-width:600px; margin:0 auto;">
+                    <h3 style="font-size:16px; color:#2d3748; margin-bottom:8px;">Score Breakdown</h3>
+                    <p><strong>Part 1 (Short call scenarios):</strong> ${finalScore} / 10 (${finalPercentage.toFixed(1)}%)</p>
+                    <p><strong>Part 2 (Full call – sequence & details):</strong> ${part2Score} / ${totalItems} (${part2Percentage.toFixed(1)}%)</p>
+                    <p style="margin-top:8px; font-size:13px; color:#718096;">
+                        Part 1 tests quick, focused detail recall from short clips. Part 2 tests your ability to track sequence
+                        and key details within a single, richer call.
+                    </p>
+                </div>
+            `;
+            document.getElementById('breakdownContainer').innerHTML = breakdown;
+
+            // Show Part 1 mistakes for targeted review
+            if (finalMistakes.length > 0) {
+                let mistakesHTML = '<div class="review-section" style="text-align:left; max-width:600px; margin:20px auto 0 auto;">';
+                mistakesHTML += '<h3 style="margin-bottom:8px; color:#2d3748; font-size:16px;">Questions You Got Wrong (Part 1):</h3>';
+                mistakesHTML += '<p style="color: #4a5568; margin-bottom: 12px; font-size:14px;">Review these topics to strengthen your listening and detail skills:</p>';
+                finalMistakes.forEach(mistake => {
+                    mistakesHTML += `
+                        <div class="mistake-item" style="text-align:left; margin-bottom:6px;">
+                            <div class="mistake-title" style="font-size:14px; color:#2d3748;">
+                                • Question ${mistake.questionNumber}: ${mistake.questionTitle}
+                            </div>
+                        </div>
+                    `;
+                });
+                mistakesHTML += '</div>';
+                document.getElementById('mistakesContainer').innerHTML = mistakesHTML;
+            } else {
+                document.getElementById('mistakesContainer').innerHTML =
+                    '<p style="color:#38a169; font-weight:600; margin-top:15px;">🎉 Perfect Part 1 score! You answered all short scenarios correctly.</p>';
+            }
+
+            // Set progress to full when everything is done
+            document.getElementById('progressBar').style.width = '100%';
+        }
+    </script>
+</body>
+</html>
