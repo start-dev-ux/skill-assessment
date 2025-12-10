@@ -30,19 +30,18 @@
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 40px 30px;
+            padding: 30px;
             text-align: center;
         }
 
         .header h1 {
-            font-size: 32px;
+            font-size: 28px;
             margin-bottom: 10px;
-            font-weight: 600;
         }
 
         .header p {
             font-size: 16px;
-            opacity: 0.95;
+            opacity: 0.9;
         }
 
         .instructions {
@@ -283,84 +282,21 @@
         }
 
         .start-screen {
-            padding: 50px 40px;
+            padding: 40px;
             text-align: center;
         }
 
         .start-screen h2 {
             color: #2d3748;
-            margin-bottom: 30px;
-            font-size: 32px;
-            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 26px;
         }
 
-        .start-screen .intro-text {
+        .start-screen p {
             color: #4a5568;
             font-size: 16px;
             line-height: 1.8;
-            margin-bottom: 35px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 25px;
-            margin: 35px auto;
-            border-radius: 8px;
-            text-align: left;
-            max-width: 650px;
-        }
-
-        .info-box h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .info-box ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .info-box li {
-            color: #4a5568;
-            font-size: 15px;
-            line-height: 1.8;
-            margin-bottom: 12px;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .info-box li::before {
-            content: "●";
-            color: #667eea;
-            font-size: 20px;
-            position: absolute;
-            left: 0;
-            top: -2px;
-        }
-
-        .start-screen .ready-text {
-            color: #4a5568;
-            font-size: 16px;
-            margin: 30px 0 20px 0;
-        }
-
-        .start-screen .good-luck {
-            color: #2d3748;
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-
-        .start-screen .btn-primary {
-            padding: 15px 50px;
-            font-size: 18px;
-            font-weight: 600;
+            margin-bottom: 20px;
         }
 
         .review-section {
@@ -407,6 +343,18 @@
             font-weight: bold;
             margin-top: 15px;
         }
+
+        .highlight-box {
+            background: #fff5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .highlight-box strong {
+            color: #667eea;
+        }
     </style>
 </head>
 <body>
@@ -417,28 +365,17 @@
 
         <div class="header">
             <h1>Active Listening & Attention to Detail Assessment</h1>
-            <p>Evaluate how well you capture key information from real-world conversations.</p>
         </div>
 
         <div class="start-screen" id="startScreen">
-            <h2>Welcome!</h2>
+            <h2>Welcome to the Active Listening & Accuracy Assessment!</h2>
+            <p>This assessment is designed to evaluate your ability to capture accuracy and attention to detail when synthesizing key information from a recorded phone call.</p>
             
-            <p class="intro-text">This assessment measures your ability to actively listen and accurately extract essential details from short recorded phone conversations. These skills are critical for delivering high-quality work, communicating clearly, and supporting our customers and internal teams.</p>
-            
-            <div class="info-box">
-                <h3>Before you begin:</h3>
-                <ul>
-                    <li>Listen closely to each audio clip.</li>
-                    <li>You may play each call recording up to two times. After two full plays, the audio will be locked and you won't be able to replay it.</li>
-                    <li>Choose the answer that best reflects the information provided.</li>
-                </ul>
-            </div>
+            <p><strong>Important:</strong> Listen carefully to each audio recording before selecting your answer. You can replay the audio as many times as needed.</p>
 
-            <p class="ready-text">When you're ready, start the assessment below.</p>
+            <p style="font-size: 18px; font-weight: 600; color: #667eea; margin-top: 30px;">Good luck!</p>
 
-            <p class="good-luck">You've got this—good luck!</p>
-
-            <button class="btn btn-primary" id="startButton">Begin Assessment</button>
+            <button class="btn btn-primary" onclick="startAssessment()" style="margin-top: 30px; padding: 15px 40px; font-size: 18px;">Start Assessment</button>
         </div>
 
         <div class="question-container" id="question1">
@@ -780,4 +717,350 @@
                 <div class="audio-instruction">Listen to the audio recording carefully:</div>
                 <audio controls id="audio8">
                     <source src="set8_appliance.mp3" type="audio/mpeg">
-                    Your browser
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q8" id="q8a" value="A">
+                    <label for="q8a">
+                        <div class="option-label">Option A:</div>
+                        <div class="option-text">The customer reported an issue with a broken dishwasher. The service call fee is $99. A technician is scheduled to arrive on Friday, April 5th, during the 1:00 PM to 3:00 PM window. The customer was instructed to pay the technician directly via check.</div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q8" id="q8b" value="B">
+                    <label for="q8b">
+                        <div class="option-label">Option B:</div>
+                        <div class="option-text">The customer reported an issue with a broken dishwasher. The service call fee is $89. A technician is scheduled to arrive on Friday, April 5th, during the 1:00 PM to 3:00 PM window. The customer was instructed to pay the technician directly via credit card.</div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q8" id="q8c" value="C">
+                    <label for="q8c">
+                        <div class="option-label">Option C:</div>
+                        <div class="option-text">The customer reported an issue with a broken dryer. The service call fee is $89. A technician is scheduled to arrive on Friday, April 5th, during the 1:00 PM to 3:00 PM window. The customer was instructed to pay the technician directly via check.</div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(8)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(8)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-container" id="question9">
+            <div class="question-header">
+                <div class="question-number">Question 9 of 10</div>
+                <div class="question-title">Set 9: Photography Session Booking</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio controls id="audio9">
+                    <source src="set9_photography.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q9" id="q9a" value="A">
+                    <label for="q9a">
+                        <div class="option-label">Option A:</div>
+                        <div class="option-text">The customer booked a one-hour family portrait session for Sunday, August 18th, at 4:30 PM. The session requires a $75 retainer fee. The staff confirmed the session will take place at the customer's home. The package includes 15 edited digital images.</div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q9" id="q9b" value="B">
+                    <label for="q9b">
+                        <div class="option-label">Option B:</div>
+                        <div class="option-text">The customer booked a one-hour maternity portrait session for Sunday, August 18th, at 4:30 PM. The session requires a $75 retainer fee. The staff confirmed the session will take place at the photographer's studio. The package includes 15 edited digital images.</div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q9" id="q9c" value="C">
+                    <label for="q9c">
+                        <div class="option-label">Option C:</div>
+                        <div class="option-text">The customer booked a one-hour maternity portrait session for Saturday, August 18th, at 4:00 PM. The session requires a $50 retainer fee. The staff confirmed the session will take place at the photographer's studio. The package includes 10 edited digital images.</div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(9)">Previous</button>
+                <button class="btn btn-primary" onclick="nextQuestion(9)">Next</button>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-container" id="question10">
+            <div class="question-header">
+                <div class="question-number">Question 10 of 10</div>
+                <div class="question-title">Set 10: Financial Planning Appointment</div>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-instruction">Listen to the audio recording carefully:</div>
+                <audio controls id="audio10">
+                    <source src="set10_financial.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="q10" id="q10a" value="A">
+                    <label for="q10a">
+                        <div class="option-label">Option A:</div>
+                        <div class="option-text">The client scheduled a 30-minute introductory meeting with Mr. David Allen. The meeting is set for Wednesday, February 21st, at 2:00 PM. The client was asked to bring their most recent tax return and a list of current investments. The staff confirmed the meeting will be in-person.</div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q10" id="q10b" value="B">
+                    <label for="q10b">
+                        <div class="option-label">Option B:</div>
+                        <div class="option-text">The client scheduled a 30-minute introductory meeting with Ms. Diane Allen. The meeting is set for Wednesday, February 21st, at 2:30 PM. The client was asked to bring their most recent tax return and a list of current investments. The staff confirmed the meeting will be virtual.</div>
+                    </label>
+                </div>
+
+                <div class="option">
+                    <input type="radio" name="q10" id="q10c" value="C">
+                    <label for="q10c">
+                        <div class="option-label">Option C:</div>
+                        <div class="option-text">The client scheduled a one-hour introductory meeting with Mr. David Allen. The meeting is set for Wednesday, February 21st, at 2:00 PM. The client was asked to bring their credit report and a list of current debts. The staff confirmed the meeting will be in-person.</div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" onclick="prevQuestion(10)">Previous</button>
+                <button class="btn btn-primary" onclick="submitAssessment()">Submit Assessment</button>
+            </div>
+        </div>
+
+        <div class="results" id="results">
+            <h2>Assessment Complete!</h2>
+            <div class="score-circle">
+                <div class="score-number" id="scoreNumber">0</div>
+                <div class="score-label">out of 10</div>
+            </div>
+            <div class="results-message" id="resultsMessage"></div>
+            <div id="mistakesContainer"></div>
+            <button class="btn btn-primary" onclick="restartAssessment()" style="margin-top: 20px;">Retake Assessment</button>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            q1: 'C',
+            q2: 'B', 
+            q3: 'C',
+            q4: 'C',
+            q5: 'B',
+            q6: 'A',
+            q7: 'B',
+            q8: 'C',
+            q9: 'B',
+            q10: 'A'
+        };
+
+        const questionTitles = {
+            q1: 'Set 1: HVAC Annual Maintenance',
+            q2: 'Set 2: Pet Grooming Appointment',
+            q3: 'Set 3: Catering Inquiry',
+            q4: 'Set 4: Home Security System Installation',
+            q5: 'Set 5: Auto Repair – Oil Change and Tire Rotation',
+            q6: 'Set 6: Web Design Consultation',
+            q7: 'Set 7: Gym Membership Inquiry',
+            q8: 'Set 8: Appliance Repair',
+            q9: 'Set 9: Photography Session Booking',
+            q10: 'Set 10: Financial Planning Appointment'
+        };
+
+        let currentQuestion = 0;
+        const totalQuestions = 10;
+        let userAnswers = {};
+        let audioPlayCounts = {
+            audio1: 0,
+            audio2: 0,
+            audio3: 0,
+            audio4: 0,
+            audio5: 0,
+            audio6: 0,
+            audio7: 0,
+            audio8: 0,
+            audio9: 0,
+            audio10: 0
+        };
+
+        function stopAllAudio() {
+            for (let i = 1; i <= totalQuestions; i++) {
+                const audio = document.getElementById(`audio${i}`);
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            }
+        }
+
+        function setupAudioLimits() {
+            for (let i = 1; i <= totalQuestions; i++) {
+                const audio = document.getElementById(`audio${i}`);
+                if (audio) {
+                    audio.addEventListener('play', function() {
+                        const audioId = `audio${i}`;
+                        audioPlayCounts[audioId]++;
+                        
+                        if (audioPlayCounts[audioId] >= 2) {
+                            // After 2nd play, disable the audio
+                            audio.addEventListener('ended', function() {
+                                audio.controls = false;
+                                const parent = audio.parentElement;
+                                if (!parent.querySelector('.play-limit-message')) {
+                                    const message = document.createElement('div');
+                                    message.className = 'play-limit-message';
+                                    message.textContent = '⚠️ You have reached the maximum play limit (2 times) for this audio.';
+                                    message.style.color = '#e53e3e';
+                                    message.style.fontWeight = 'bold';
+                                    message.style.marginTop = '10px';
+                                    message.style.padding = '10px';
+                                    message.style.background = '#fff5f5';
+                                    message.style.borderRadius = '5px';
+                                    message.style.border = '1px solid #e53e3e';
+                                    parent.appendChild(message);
+                                }
+                            }, { once: true });
+                        }
+                    });
+                }
+            }
+        }
+
+        function startAssessment() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('question1').classList.add('active');
+            currentQuestion = 1;
+            updateProgress();
+            setupAudioLimits();
+        }
+
+        function nextQuestion(current) {
+            const selected = document.querySelector(`input[name="q${current}"]:checked`);
+            if (!selected) {
+                alert('Please select an answer before proceeding.');
+                return;
+            }
+
+            userAnswers[`q${current}`] = selected.value;
+            stopAllAudio();
+
+            document.getElementById(`question${current}`).classList.remove('active');
+            
+            if (current < totalQuestions) {
+                currentQuestion = current + 1;
+                document.getElementById(`question${currentQuestion}`).classList.add('active');
+                updateProgress();
+            }
+        }
+
+        function prevQuestion(current) {
+            stopAllAudio();
+            document.getElementById(`question${current}`).classList.remove('active');
+            currentQuestion = current - 1;
+            document.getElementById(`question${currentQuestion}`).classList.add('active');
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function submitAssessment() {
+            const selected = document.querySelector('input[name="q10"]:checked');
+            if (!selected) {
+                alert('Please select an answer before submitting.');
+                return;
+            }
+
+            userAnswers['q10'] = selected.value;
+            stopAllAudio();
+
+            let score = 0;
+            let mistakes = [];
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionKey = `q${i}`;
+                const userAnswer = userAnswers[questionKey];
+                const correctAnswer = correctAnswers[questionKey];
+
+                if (userAnswer === correctAnswer) {
+                    score++;
+                } else {
+                    mistakes.push({
+                        questionNumber: i,
+                        questionTitle: questionTitles[questionKey],
+                        userAnswer: userAnswer,
+                        correctAnswer: correctAnswer
+                    });
+                }
+            }
+
+            document.getElementById('question10').classList.remove('active');
+            document.getElementById('results').classList.add('active');
+            document.getElementById('scoreNumber').textContent = score;
+            
+            let message = '';
+            const percentage = (score / totalQuestions) * 100;
+            
+            if (percentage >= 90) {
+                message = 'Excellent! You have outstanding attention to detail and active listening skills.';
+            } else if (percentage >= 70) {
+                message = 'Good job! You demonstrated solid listening and comprehension abilities.';
+            } else if (percentage >= 50) {
+                message = 'Fair performance. Consider reviewing the material and practicing your listening skills.';
+            } else {
+                message = 'Additional training recommended. Focus on improving your attention to detail.';
+            }
+            
+            document.getElementById('resultsMessage').textContent = message;
+
+            // Display mistakes if any
+            if (mistakes.length > 0) {
+                let mistakesHTML = '<div class="review-section"><h3>Review Your Incorrect Answers:</h3>';
+                mistakes.forEach(mistake => {
+                    mistakesHTML += `
+                        <div class="mistake-item">
+                            <div class="mistake-title">Question ${mistake.questionNumber}: ${mistake.questionTitle}</div>
+                            <div class="mistake-details">
+                                <strong>Your Answer:</strong> Option ${mistake.userAnswer}<br>
+                                <strong>Correct Answer:</strong> Option ${mistake.correctAnswer}
+                            </div>
+                        </div>
+                    `;
+                });
+                mistakesHTML += '</div>';
+                document.getElementById('mistakesContainer').innerHTML = mistakesHTML;
+            } else {
+                document.getElementById('mistakesContainer').innerHTML = '<p class="correct-indicator">🎉 Perfect score! You got all answers correct!</p>';
+            }
+
+            updateProgress();
+            document.getElementById('progressBar').style.width = '100%';
+        }
+
+        function restartAssessment() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
